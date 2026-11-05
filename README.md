@@ -1,6 +1,6 @@
 # PW API Atlas
 
-Independent, private research repository for the API inventory recovered from
+Independent research repository for the API inventory recovered from
 the PW Android package (`xyz.penpencil.physicswala`, version `15.60.03`, version
 code `156003`).
 
@@ -64,17 +64,20 @@ hosts.
   phone number you control. It does not bypass authentication, device limits or
   other upstream security checks.
 - The app package and decompiled material remain the property of their
-  respective owners. Do not redistribute them.
+  respective owners. They are included here as research evidence only; reuse
+  is subject to the owner's terms.
 - This repository is not affiliated with, endorsed by, or supported by Physics
   Wallah.
 
 ## Security note
 
-This private repository contains application constants recovered from the APK,
-including OAuth client identifiers used by the local sign-in helper. Keep the
-repository private. If it is ever made public, those constants should first be
-removed from `api/site/serve.py` and supplied through a local, untracked file or
-environment variable.
+This public repository contains application constants recovered from the APK,
+including OAuth client identifiers used by the local sign-in helper. These
+identifiers are also extractable from the publicly distributed Android package.
+No user tokens, phone numbers, OTPs or cookies are tracked. Anyone running the
+sign-in helper should still supply their own values through a local, untracked
+file or environment variable if they prefer not to rely on the embedded
+constants.
 
 ## License
 
