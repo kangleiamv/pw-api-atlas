@@ -1,0 +1,21 @@
+# Local extraction workspace. Large and reproducible from the APKS.
+/work/
+
+# Python and test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Local runtime files and secrets
+api/cookies.json
+.env
+.env.*
+!.env.example
+*.local.json
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+*.swp

@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#181b1f">
+  <meta name="description" content="An independent, static research explorer for the API surface recovered from the PW 15.60.03 Android package.">
+  <title>PW API Atlas — recovered interface inventory</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/styles.css">
+  <script src="assets/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#explorer">Skip to the explorer</a>
+
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="PW API Atlas home">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <span class="brand-text">
+        <strong>PW API Atlas</strong>
+        <small>recovered interface inventory</small>
+      </span>
+    </a>
+    <nav class="topnav" aria-label="Sections">
+      <a href="#explorer">Explorer</a>
+      <a href="#auth">Auth model</a>
+      <a href="#files">Files</a>
+      <a href="#method">Method</a>
+    </nav>
+    <span class="version-chip" title="Version of the analyzed Android package">
+      <span class="dot" aria-hidden="true"></span>
+      <span id="appVersion">15.60.03</span>
+    </span>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero-copy">
+        <p class="eyebrow">Independent research index <span>/</span> static extraction</p>
+        <h1 id="heroTitle">The interface surface,<br><em>made readable.</em></h1>
+        <p class="lede">
+          A searchable inventory of the HTTP interfaces recovered from the
+          PW Android package. Browse paths, parameters, declarations and
+          response types. Send a request only when you have permission to do so.
+        </p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#explorer">Open the explorer</a>
+          <a class="button button-quiet" href="#method">How it was recovered</a>
+        </div>
+      </div>
+      <div class="hero-ledger" aria-label="Catalog totals">
+        <div class="ledger-row">
+          <span class="ledger-label">Operations</span>
+          <strong data-stat="operations">—</strong>
+        </div>
+        <div class="ledger-row">
+          <span class="ledger-label">Declarations merged</span>
+          <strong data-stat="declarations">—</strong>
+        </div>
+        <div class="ledger-row">
+          <span class="ledger-label">Distinct paths</span>
+          <strong data-stat="paths">—</strong>
+        </div>
+        <div class="ledger-row">
+          <span class="ledger-label">Documented hosts</span>
+          <strong data-stat="hosts">—</strong>
+        </div>
+        <p class="ledger-note" id="generatedNote">Catalog generated —</p>
+      </div>
+    </section>
+
+    <aside class="notice-strip" aria-label="Authorized use notice">
+      <span class="notice-mark" aria-hidden="true">!</span>
+      <p>
+        <strong>Authorized use only.</strong>
+        This is an unofficial documentation tool. Requests leave this machine for
+        penpencil.co hosts only when you press <em>Send</em>. Use it against accounts and
+        systems you own or have written permission to test. No token is stored or logged.
+      </p>
+      <a href="#auth">Read the rules</a>
+    </aside>
+
+    <section class="explorer" id="explorer" aria-labelledby="explorerTitle">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">01 <span>/</span> Catalog</p>
+          <h2 id="explorerTitle">Browse the recovered surface</h2>
+        </div>
+        <p class="section-note">
+          Filters run locally over the catalog. No external request is made
+          until you open a request console and press Send.
+        </p>
+      </div>
+
+      <div class="explorer-search">
+        <label class="search-field" for="searchInput">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"></circle><path d="m16 16 4 4"></path></svg>
+          <span class="sr-only">Search operations</span>
+          <input id="searchInput" type="search" placeholder="Search path, operation id, class or label…" autocomplete="off" spellcheck="false">
+        </label>
+        <div class="method-filter" id="methodFilter" role="group" aria-label="Filter by HTTP method">
+          <button type="button" class="method-chip is-active" data-method="" aria-pressed="true">All</button>
+          <button type="button" class="method-chip" data-method="GET" aria-pressed="false">GET</button>
+          <button type="button" class="method-chip" data-method="POST" aria-pressed="false">POST</button>
+          <button type="button" class="method-chip" data-method="PUT" aria-pressed="false">PUT</button>
+          <button type="button" class="method-chip" data-method="PATCH" aria-pressed="false">PATCH</button>
+          <button type="button" class="method-chip" data-method="DELETE" aria-pressed="false">DELETE</button>
+        </div>
+      </div>
+
+      <div class="explorer-layout">
+        <aside class="filter-rail" aria-label="Catalog filters">
+          <div class="rail-block">
+            <label class="field-label" for="tagSelect">Tag</label>
+            <select id="tagSelect">
+              <option value="">All tags</option>
+            </select>
+          </div>
+
+          <div class="rail-block">
+            <label class="field-label" for="frameworkSelect">Framework</label>
+            <select id="frameworkSelect">
+              <option value="">Both frameworks</option>
+              <option value="retrofit">Retrofit</option>
+              <option value="ktorfit">Ktorfit</option>
+            </select>
+          </div>
+
+          <fieldset class="rail-block rail-checks">
+            <legend class="field-label">Narrow further</legend>
+            <label class="check-row">
+              <input type="checkbox" id="publicOnly">
+              <span>Public / no bearer inferred</span>
+            </label>
+            <label class="check-row">
+              <input type="checkbox" id="payloadOnly">
+              <span>Has a typed payload</span>
+            </label>
+            <label class="check-row">
+              <input type="checkbox" id="parameterizedOnly">
+              <span>Has parameters</span>
+            </label>
+          </fieldset>
+
+          <div class="rail-block rail-summary">
+            <p class="field-label">Catalog shape</p>
+            <dl id="railStats">
+              <div><dt>Retrofit</dt><dd data-framework-count="retrofit">—</dd></div>
+              <div><dt>Ktorfit</dt><dd data-framework-count="ktorfit">—</dd></div>
+              <div><dt>Public</dt><dd data-public-count>—</dd></div>
+            </dl>
+          </div>
+
+          <button type="button" class="button button-reset" id="resetFilters">Reset filters</button>
+          <p class="rail-footnote">
+            Catalog order is preserved by default. Search matches operation ids,
+            paths, labels and class names.
+          </p>
+        </aside>
+
+        <div class="results-pane">
+          <div class="results-bar">
+            <p class="result-summary" id="resultSummary" aria-live="polite">Loading catalog…</p>
+            <div class="results-controls">
+              <label class="compact-field">
+                <span>Sort</span>
+                <select id="sortSelect" aria-label="Sort operations">
+                  <option value="catalog">Catalog order</option>
+                  <option value="path">Path A–Z</option>
+                  <option value="method">Method</option>
+                  <option value="tag">Tag</option>
+                  <option value="label">Label</option>
+                </select>
+              </label>
+              <label class="compact-field">
+                <span>Page size</span>
+                <select id="pageSizeSelect" aria-label="Operations per page">
+                  <option value="25">25</option>
+                  <option value="50" selected>50</option>
+                  <option value="100">100</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <p class="filter-readout" id="activeFilters" hidden></p>
+
+          <div class="operation-list" id="operationList" aria-live="polite">
+            <div class="skeleton-row"></div>
+            <div class="skeleton-row"></div>
+            <div class="skeleton-row"></div>
+            <div class="skeleton-row"></div>
+            <div class="skeleton-row"></div>
+          </div>
+
+          <nav class="pagination" id="pagination" aria-label="Catalog pages"></nav>
+
+          <div class="catalog-error" id="catalogError" hidden>
+            <h3>Catalog could not be loaded</h3>
+            <p>Start the local server from <code>api/site/</code> with <code>python3 serve.py</code> and reload this page.</p>
+            <p class="mono-small" id="catalogErrorDetail"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="split-section" id="auth" aria-labelledby="authTitle">
+      <div class="section-head section-head-tight">
+        <div>
+          <p class="eyebrow">02 <span>/</span> Request model</p>
+          <h2 id="authTitle">Authentication, as documented</h2>
+        </div>
+        <p class="section-note">
+          The app uses bearer tokens and a set of application headers. The
+          request console forwards only what you enter; the optional OTP helper
+          uses fixed login operations with app constants applied server-side.
+          This explorer does not bundle a token, fabricate a session, or bypass
+          authentication.
+        </p>
+      </div>
+
+      <article class="panel signin-panel" id="signin" aria-labelledby="signinTitle">
+        <div class="signin-head">
+          <div>
+            <p class="eyebrow">Manual helper <span>/</span> Your account only</p>
+            <h3 id="signinTitle">Send an OTP and exchange it for a bearer token</h3>
+          </div>
+          <span class="status-pill status-warn" id="signinStatus">Idle</span>
+        </div>
+        <p class="signin-lead">
+          This optional helper asks the local server to send an OTP to a number
+          you control and then exchange that OTP for an access token. It uses
+          only the documented <code>get-otp-app</code> and <code>oauth/token</code>
+          operations. The server applies the app’s OAuth client identifiers,
+          enforces a cooldown and attempt limit, and returns a redacted result.
+          Nothing is written to disk or browser storage, and the phone number,
+          OTP and token are never logged.
+        </p>
+        <form id="signinForm" autocomplete="off" novalidate>
+          <div class="signin-grid">
+            <label class="field-label" for="signinHost">API host
+              <select class="field" id="signinHost"></select>
+            </label>
+            <label class="field-label" for="signinCountry">Country code
+              <input class="field" id="signinCountry" type="tel" inputmode="tel"
+                     value="+91" maxlength="5" autocomplete="off"
+                     spellcheck="false">
+            </label>
+            <label class="field-label" for="signinPhone">Phone number
+              <input class="field" id="signinPhone" type="tel" inputmode="tel"
+                     placeholder="Digits only, without country code"
+                     maxlength="20" autocomplete="off" spellcheck="false">
+            </label>
+          </div>
+          <label class="consent-check signin-ack">
+            <input type="checkbox" id="signinAck">
+            <span>I own this phone number, or I have the account owner’s permission to sign in and use the resulting token for authorized testing.</span>
+          </label>
+          <div class="signin-actions">
+            <button type="submit" class="button button-primary" id="signinSend">Send OTP</button>
+            <button type="button" class="button button-quiet" id="signinResend" disabled>Resend OTP</button>
+            <button type="button" class="button button-quiet" id="signinReset" hidden>Start over</button>
+            <button type="button" class="button button-quiet" id="signinConsent" hidden>Review authorized-use notice</button>
+          </div>
+          <div class="signin-step" id="signinOtpStep" hidden>
+            <label class="field-label" for="signinOtp">One-time code
+              <input class="field signin-otp" id="signinOtp" type="text"
+                     inputmode="numeric" pattern="[0-9]*" maxlength="10"
+                     autocomplete="one-time-code" placeholder="Code from the SMS">
+            </label>
+            <button type="submit" class="button button-primary"
+                    id="signinExchange">Exchange for token</button>
+          </div>
+          <p class="signin-message" id="signinMessage" role="status" aria-live="polite"></p>
+        </form>
+        <div class="signin-result" id="signinResult" hidden>
+          <p class="field-label">Access token <span class="signin-result-note">masked until revealed · kept in page memory only</span></p>
+          <code class="signin-token" id="signinTokenPreview"></code>
+          <div class="signin-actions">
+            <button type="button" class="mini-button" id="signinReveal">Show</button>
+            <button type="button" class="button button-primary" id="signinUse">Use as bearer token</button>
+            <button type="button" class="button button-quiet" id="signinForget">Forget token</button>
+          </div>
+          <p class="token-note" id="signinTokenMeta"></p>
+        </div>
+        <p class="fine-print signin-fine">
+          The account-deletion OTP routes (<code>/v3/otp-app</code> and
+          <code>/v3/otp/verify</code>) are deliberately not used. Sign-in is
+          disabled until the authorized-use notice above is accepted. Do not
+          paste a token from someone else, and stop if the account shows a
+          device or session warning you do not recognize.
+        </p>
+      </article>
+
+      <div class="auth-grid">
+        <article class="panel">
+          <h3>Bearer token</h3>
+          <p>
+            The recovered interceptor reads a token from the app’s auth provider
+            and sends it as <code>Authorization: Bearer &lt;token&gt;</code>.
+            Token endpoints are the documented entry points. Operations not
+            marked public require a token in the console; operations flagged
+            public can be called without one. You can paste a token below or
+            obtain one for your own account with the manual OTP helper above.
+          </p>
+          <div class="code-inline">Authorization: Bearer &lt;token&gt;</div>
+          <ul class="plain-list" id="tokenEndpoints">
+            <li>Loading documented token endpoints…</li>
+          </ul>
+          <p class="fine-print">
+            The request console keeps a token in page memory for the life of the
+            tab. It is never written to storage, placed in a URL, or logged by
+            the local server.
+          </p>
+        </article>
+
+        <article class="panel">
+          <h3>Application headers</h3>
+          <p>
+            These identifiers were found in the APK and are documented for
+            research. The generic request console does <strong>not</strong> add
+            them automatically. The optional OTP helper applies the required
+            subset server-side to match the app; elsewhere you can add them
+            explicitly when your authorized test requires them.
+          </p>
+          <div class="table-wrap">
+            <table class="mini-table">
+              <tbody id="appHeadersTable">
+                <tr><td colspan="2">Loading documented headers…</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="panel accent-panel">
+          <h3>Rules of the road</h3>
+          <ol class="rules-list">
+            <li>Use only accounts and systems you own or are authorized to test.</li>
+            <li>Do not attempt to obtain, replay, or share another person’s token.</li>
+            <li>Do not use the catalog to build a look-alike consumer app.</li>
+            <li>Respect rate limits and stop if a request could affect real users.</li>
+            <li>Treat extracted paths and types as static evidence, not a guarantee.</li>
+          </ol>
+          <p class="fine-print">
+            The explorer is independent and is not affiliated with, endorsed by,
+            or supported by Physics Wallah.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <section class="split-section" id="files" aria-labelledby="filesTitle">
+      <div class="section-head section-head-tight">
+        <div>
+          <p class="eyebrow">03 <span>/</span> Artifacts</p>
+          <h2 id="filesTitle">Take the data with you</h2>
+        </div>
+        <p class="section-note">
+          The same catalog powers the explorer, the OpenAPI document and the
+          flat CSV. Links below are served by this local instance.
+        </p>
+      </div>
+
+      <div class="file-grid">
+        <a class="file-card" href="/api/openapi.yaml" download>
+          <span class="file-kind">YAML</span>
+          <h3>OpenAPI 3.1</h3>
+          <p>Every fixed-path operation, with servers, security, parameters and inferred response envelopes.</p>
+          <span class="file-action">Download openapi.yaml <span aria-hidden="true">↓</span></span>
+        </a>
+        <a class="file-card" href="/api/catalog" download>
+          <span class="file-kind">JSON</span>
+          <h3>Full catalog</h3>
+          <p>All operations, declarations, parameter bindings, tags, response types and extraction notes.</p>
+          <span class="file-action">Download catalog <span aria-hidden="true">↓</span></span>
+        </a>
+        <a class="file-card" href="/api/endpoints.csv" download>
+          <span class="file-kind">CSV</span>
+          <h3>Endpoint list</h3>
+          <p>A flat, one-row-per-operation table for spreadsheets, diffing and review.</p>
+          <span class="file-action">Download endpoints.csv <span aria-hidden="true">↓</span></span>
+        </a>
+        <a class="file-card" href="/api/README.md">
+          <span class="file-kind">MD</span>
+          <h3>Research notes</h3>
+          <p>Extraction method, counts, caveats, authentication notes and client usage.</p>
+          <span class="file-action">Open README.md <span aria-hidden="true">→</span></span>
+        </a>
+      </div>
+    </section>
+
+    <section class="split-section method-section" id="method" aria-labelledby="methodTitle">
+      <div class="section-head section-head-tight">
+        <div>
+          <p class="eyebrow">04 <span>/</span> Method</p>
+          <h2 id="methodTitle">Recovered, merged, left unverified</h2>
+        </div>
+        <p class="section-note">
+          The catalog is the product of static analysis. It is evidence of what
+          the package declares, not a claim that every endpoint works or is
+          reachable in production.
+        </p>
+      </div>
+
+      <div class="method-grid">
+        <ol class="method-steps">
+          <li>
+            <span class="step-number">01</span>
+            <div>
+              <h3>Unpack</h3>
+              <p>The APKS was split into its base APK, then all 18 DEX files were extracted.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-number">02</span>
+            <div>
+              <h3>Read annotations</h3>
+              <p>Ktorfit and Retrofit interface annotations supplied verbs, paths, headers and parameter bindings.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-number">03</span>
+            <div>
+              <h3>Resolve names</h3>
+              <p>R8-renamed Retrofit annotations were mapped from <code>RequestFactory$Builder</code> bytecode.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-number">04</span>
+            <div>
+              <h3>Merge, do not invent</h3>
+              <p>Duplicate declarations became one operation; every original declaration is retained in the entry.</p>
+            </div>
+          </li>
+        </ol>
+
+        <aside class="panel caveat-panel">
+          <h3>Known limits</h3>
+          <ul class="plain-list">
+            <li>No operation was called against production during extraction.</li>
+            <li>DTO fields were not reconstructed; types are named, not expanded.</li>
+            <li>Runtime <code>@Url</code> operations and external URLs stay outside OpenAPI.</li>
+            <li>Free-form maps cannot be described statically.</li>
+            <li>Gateway routing, feature flags and server validation may differ.</li>
+          </ul>
+          <div class="hash-block">
+            <p class="field-label">APKS SHA-256</p>
+            <code class="hash">0a81b091ca302c817fc407cf6f454368b92921e23eee21c6925dd73123776d36</code>
+          </div>
+        </aside>
+      </div>
+
+      <div class="surface-block">
+        <div class="surface-head">
+          <div>
+            <h3>Outside the fixed-path catalog</h3>
+            <p>
+              These entries are retained in the raw catalog but are intentionally
+              outside the explorer and OpenAPI document: runtime-supplied URLs,
+              third-party endpoints and non-HTTP service surfaces.
+            </p>
+          </div>
+          <a class="text-link" href="/api/catalog" download>Open raw catalog ↓</a>
+        </div>
+        <div class="surface-grid" id="surfaceGrid" aria-live="polite">
+          <p class="surface-loading">Loading excluded surfaces…</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div>
+      <span class="footer-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <p><strong>PW API Atlas</strong> — an independent documentation and research project.</p>
+    </div>
+    <p>
+      Not affiliated with Physics Wallah. Paths and types are static extraction
+      artifacts. No warranty. Use only with authorization.
+    </p>
+  </footer>
+
+  <div class="drawer-backdrop" id="detailBackdrop" hidden></div>
+  <aside class="drawer" id="detailPanel" role="dialog" aria-modal="true" aria-labelledby="detailTitle" aria-hidden="true" inert>
+    <div class="drawer-head">
+      <div>
+        <p class="drawer-kicker" id="detailKicker"></p>
+        <h2 id="detailTitle"></h2>
+      </div>
+      <button type="button" class="icon-button" id="detailClose" aria-label="Close operation details">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg>
+      </button>
+    </div>
+    <div class="drawer-body" id="detailBody"></div>
+  </aside>
+
+  <dialog class="consent-dialog" id="consentDialog" aria-labelledby="consentTitle">
+    <div class="consent-mark" aria-hidden="true">A</div>
+    <p class="eyebrow">Before you continue</p>
+    <h2 id="consentTitle">A research tool, not a way in.</h2>
+    <p>
+      This independent explorer documents an API surface recovered from a
+      mobile package. It does not grant access to anything. When you press
+      <em>Send</em> in a request console, a real HTTP request is made from this
+      machine to the selected host.
+    </p>
+    <ul class="consent-list">
+      <li>I will use it only with accounts and systems I own or have written permission to test.</li>
+      <li>I will not use it to access another person’s data, bypass authentication, or disrupt a service.</li>
+      <li>I understand my token stays in page memory, is not persisted, and is forwarded only when I send a request.</li>
+    </ul>
+    <label class="consent-check">
+      <input type="checkbox" id="consentCheck">
+      <span>I understand and agree to use this tool only for authorized research.</span>
+    </label>
+    <div class="consent-actions">
+      <button type="button" class="button button-primary" id="consentContinue" disabled>Continue to the atlas</button>
+      <a class="button button-quiet" href="#explorer" id="consentRead">Browse without sending</a>
+    </div>
+    <p class="fine-print">
+      This acknowledgement is kept in this tab’s session storage only. No
+      analytics, cookies or third-party scripts are loaded.
+    </p>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <noscript>
+    <div class="noscript">The explorer needs JavaScript to filter the catalog. The downloadable artifacts still work.</div>
+  </noscript>
+</body>
+</html>
